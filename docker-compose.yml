@@ -1,0 +1,44 @@
+version: "3.8"
+services:
+  # nginx
+  nginx:
+    build: ./nginx
+    container_name: fastapi-practice.nginx
+    restart: always
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d
+    ports:
+      - 80:80
+      - 23450:23450
+    depends_on:
+      - web
+      - api
+
+  # API
+  api:
+    build: ./api
+    container_name: fastapi-practice.api
+    tty: true
+    restart: always
+    volumes:
+      - ./api:/share
+    command: >
+      bash -c "uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    env_file:
+      ./envs/.env
+    depends_on:
+      - db
+
+  db:
+    build: ./db
+    container_name: fastapi-practice.db
+    tty: true
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - ./db/db_data:/var/lib/mysql
+      - ./db/initdb.d:/docker-entrypoint-initdb.d
+      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+    env_file:
+      ./envs/.env
