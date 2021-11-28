@@ -1,10 +1,10 @@
 FROM python:3.10.0
 
-RUN apt install -y \
-  bash \
-  curl \
-  wget \
-  && apt clean
+RUN apt update && apt install -y \
+    bash \
+    curl \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
 # alias
 RUN echo "alias ll='ls -lahF'" >> ~/.bashrc
