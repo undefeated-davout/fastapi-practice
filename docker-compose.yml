@@ -1,6 +1,5 @@
 version: "3.8"
 services:
-  # nginx
   nginx:
     build: ./nginx
     container_name: fastapi-practice.nginx
@@ -14,7 +13,6 @@ services:
       - web
       - api
 
-  # API
   api:
     build: ./api
     container_name: fastapi-practice.api
