@@ -18,7 +18,13 @@ def get_db():
         db.close()
 
 
-@app.post("/blog")
+@app.get('/blogs')
+def all_fetch(db: Session = Depends(get_db)):
+    blogs = db.query(models.Blog).all()
+    return blogs
+
+
+@app.post('/blog')
 def create(blog: Blog, db: Session = Depends(get_db)):
     new_blog = models.Blog(title=blog.title, body=blog.body)
     db.add(new_blog)
