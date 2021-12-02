@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, status, Response
+from fastapi import FastAPI, Depends, status, Response, HTTPException
 from .schemas import Blog
 from .models import Base
 from . import models
@@ -28,8 +28,8 @@ def all_fetch(db: Session = Depends(get_db)):
 def show(id: int, response: Response, db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
     if not blog:
-        response.status_code = status.HTTP_404_NOT_FOUND
-        return {'detail': f'Blog with the id {id} is not available'}
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f'Blog with the id {id} is not available')
     return blog
 
 
