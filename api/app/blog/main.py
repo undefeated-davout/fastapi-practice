@@ -18,12 +18,6 @@ def get_db():
         db.close()
 
 
-@app.get('/blogs')
-def all_fetch(db: Session = Depends(get_db)):
-    blogs = db.query(models.Blog).all()
-    return blogs
-
-
 @app.get('/blogs/{id}', status_code=status.HTTP_200_OK)
 def show(id: int, response: Response, db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
@@ -33,6 +27,12 @@ def show(id: int, response: Response, db: Session = Depends(get_db)):
     return blog
 
 
+@app.get('/blogs')
+def all_fetch(db: Session = Depends(get_db)):
+    blogs = db.query(models.Blog).all()
+    return blogs
+
+
 @app.post('/blogs', status_code=status.HTTP_201_CREATED)
 def create(blog: Blog, db: Session = Depends(get_db)):
     new_blog = models.Blog(title=blog.title, body=blog.body)
@@ -40,3 +40,11 @@ def create(blog: Blog, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_blog)
     return new_blog
+
+
+@app.delete('/blogs/{id}', status_code=status.HTTP_204_NO_CONTENT)
+def delete(id: int, blog: Blog, db: Session = Depends(get_db)):
+    db.query(models.Blog).filter(models.Blog.id == id).delete(
+        synchronize_session=False)
+    db.commit()
+    return 'Deletion completed'
