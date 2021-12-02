@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends, status, HTTPException
 
-from .schemas import Blog
+from .schemas import Blog, ShowBlog
 from .models import Base
 from . import models
 from .database import engine, sessionLocal
@@ -19,7 +19,9 @@ def get_db():
         db.close()
 
 
-@app.get('/blogs/{id}', status_code=status.HTTP_200_OK)
+@app.get('/blogs/{id}',
+         status_code=status.HTTP_200_OK,
+         response_model=ShowBlog)
 def show(id: int, db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
     if not blog:
