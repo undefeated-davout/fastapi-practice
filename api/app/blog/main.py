@@ -24,7 +24,13 @@ def all_fetch(db: Session = Depends(get_db)):
     return blogs
 
 
-@app.post('/blog')
+@app.get('/blogs/{id}')
+def show(id: int, db: Session = Depends(get_db)):
+    blog = db.query(models.Blog).filter(models.Blog.id == id).first()
+    return blog
+
+
+@app.post('/blogs')
 def create(blog: Blog, db: Session = Depends(get_db)):
     new_blog = models.Blog(title=blog.title, body=blog.body)
     db.add(new_blog)
