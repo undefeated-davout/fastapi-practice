@@ -1,4 +1,5 @@
-from fastapi import FastAPI, Depends, status, Response, HTTPException
+from fastapi import FastAPI, Depends, status, HTTPException
+
 from .schemas import Blog
 from .models import Base
 from . import models
@@ -19,7 +20,7 @@ def get_db():
 
 
 @app.get('/blogs/{id}', status_code=status.HTTP_200_OK)
-def show(id: int, response: Response, db: Session = Depends(get_db)):
+def show(id: int, db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
     if not blog:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
@@ -40,6 +41,19 @@ def create(blog: Blog, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_blog)
     return new_blog
+
+
+@app.put('/blogs/{id}', status_code=status.HTTP_202_ACCEPTED)
+def update(id: int, request: Blog, db: Session = Depends(get_db)):
+    blog = db.query(models.Blog).filter(models.Blog.id == id)
+    if not blog.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f'Blog with the id {id} is not available')
+    print('request.dict()', request.dict())
+    print('request', request)
+    blog.update(request.dict())
+    db.commit()
+    return 'Update completed'
 
 
 @app.delete('/blogs/{id}', status_code=status.HTTP_204_NO_CONTENT)
