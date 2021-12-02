@@ -1,10 +1,11 @@
 from fastapi import FastAPI, Depends, status, HTTPException
+from sqlalchemy.orm import Session
+from typing import List
 
-from .schemas import Blog, ShowBlog
-from .models import Base
 from . import models
 from .database import engine, sessionLocal
-from sqlalchemy.orm import Session
+from .models import Base
+from .schemas import Blog, ShowBlog
 
 app = FastAPI()
 
@@ -30,7 +31,7 @@ def show(id: int, db: Session = Depends(get_db)):
     return blog
 
 
-@app.get('/blogs')
+@app.get('/blogs', response_model=List[ShowBlog])
 def all_fetch(db: Session = Depends(get_db)):
     blogs = db.query(models.Blog).all()
     return blogs
