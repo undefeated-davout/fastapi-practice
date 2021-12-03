@@ -5,7 +5,7 @@ from typing import List
 from . import models
 from .database import engine, sessionLocal
 from .models import Base
-from .schemas import Blog, ShowBlog
+from .schemas import Blog, ShowBlog, User
 
 app = FastAPI()
 
@@ -20,10 +20,23 @@ def get_db():
         db.close()
 
 
+# --- users ---
+@app.post('/users', status_code=status.HTTP_201_CREATED)
+def create_user(req: User, db: Session = Depends(get_db)):
+    new_user = models.User(name=req.name,
+                           email=req.email,
+                           password=req.password)
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user
+
+
+# --- blogs ---
 @app.get('/blogs/{id}',
          status_code=status.HTTP_200_OK,
          response_model=ShowBlog)
-def show(id: int, db: Session = Depends(get_db)):
+def show_blog(id: int, db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
     if not blog:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
@@ -32,14 +45,14 @@ def show(id: int, db: Session = Depends(get_db)):
 
 
 @app.get('/blogs', response_model=List[ShowBlog])
-def all_fetch(db: Session = Depends(get_db)):
+def index_blogs(db: Session = Depends(get_db)):
     blogs = db.query(models.Blog).all()
     return blogs
 
 
 @app.post('/blogs', status_code=status.HTTP_201_CREATED)
-def create(blog: Blog, db: Session = Depends(get_db)):
-    new_blog = models.Blog(title=blog.title, body=blog.body)
+def create_blog(req: Blog, db: Session = Depends(get_db)):
+    new_blog = models.Blog(title=req.title, body=req.body)
     db.add(new_blog)
     db.commit()
     db.refresh(new_blog)
@@ -47,20 +60,20 @@ def create(blog: Blog, db: Session = Depends(get_db)):
 
 
 @app.put('/blogs/{id}', status_code=status.HTTP_202_ACCEPTED)
-def update(id: int, request: Blog, db: Session = Depends(get_db)):
+def update_blog(id: int, req: Blog, db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id)
     if not blog.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f'Blog with the id {id} is not available')
-    print('request.dict()', request.dict())
-    print('request', request)
-    blog.update(request.dict())
+    print('req.dict()', req.dict())
+    print('req', req)
+    blog.update(req.dict())
     db.commit()
     return 'Update completed'
 
 
 @app.delete('/blogs/{id}', status_code=status.HTTP_204_NO_CONTENT)
-def delete(id: int, blog: Blog, db: Session = Depends(get_db)):
+def destroy_blog(id: int, db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id)
     if not blog.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
