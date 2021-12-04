@@ -6,13 +6,12 @@ from .. import hashing
 from .. import models
 from .. import schemas
 
-router = APIRouter()
+router = APIRouter(prefix='/users', tags=['users'])
 
 
-@router.get('/users/{id}',
+@router.get('/{id}',
             status_code=status.HTTP_200_OK,
-            response_model=schemas.ShowUser,
-            tags=['users'])
+            response_model=schemas.ShowUser)
 def show_user(id: int, db: Session = Depends(database.get_db)):
     user = db.query(models.User).filter(models.User.id == id).first()
     if not user:
@@ -21,7 +20,7 @@ def show_user(id: int, db: Session = Depends(database.get_db)):
     return user
 
 
-@router.post('/users', status_code=status.HTTP_201_CREATED, tags=['users'])
+@router.post('/', status_code=status.HTTP_201_CREATED)
 def create_user(req: schemas.User, db: Session = Depends(database.get_db)):
     hashed_password = hashing.Hash.bcrypt(req.password)
     new_user = models.User(name=req.name,
