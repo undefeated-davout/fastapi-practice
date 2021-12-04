@@ -1,4 +1,13 @@
-FROM python:3.10.0
+# ビルド用
+FROM python:3.10.0-bullseye as builder
+
+WORKDIR /opt/app
+COPY requirements.txt /opt/app
+RUN pip install -r requirements.txt
+
+# 実行用
+FROM python:3.10.0-slim-bullseye as runner
+COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
 
 RUN apt update && apt install -y \
     bash \
@@ -6,15 +15,9 @@ RUN apt update && apt install -y \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
-# alias
 RUN echo "alias ll='ls -lahF'" >> ~/.bashrc
 
-# work directory
-WORKDIR /share
-COPY ./ /share/
-
-# pip
-RUN pip install -r requirements.txt
+WORKDIR /opt/app/src
 
 EXPOSE 8000
 
