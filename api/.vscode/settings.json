@@ -1,10 +1,12 @@
 {
-  "[python]": {
-    "editor.tabSize": 4,
-    "editor.defaultFormatter": null
-  },
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": false,
   "python.linting.flake8Enabled": true,
-  "python.formatting.provider": "yapf",
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true
+  "python.linting.lintOnSave": true,
+  "python.formatting.provider": "black",
+  "python.formatting.blackArgs": ["--line-length", "79"],
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  }
 }
