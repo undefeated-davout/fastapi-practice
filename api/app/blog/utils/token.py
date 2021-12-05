@@ -6,7 +6,7 @@ from jose import jwt
 from jose.exceptions import JWTError
 from sqlalchemy.orm import Session
 
-from .functions import user
+from ..functions.user import show_user
 
 SECRET_KEY = os.environ["API_SECRET_KEY"]
 ALGORITHM = "HS256"
@@ -35,5 +35,5 @@ def verify_token(token: str, exception, db: Session):
             raise exception
     except JWTError:
         raise exception
-    db_user = user.show(user_id, db)
+    db_user = show_user(user_id, db)
     return db_user

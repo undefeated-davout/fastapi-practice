@@ -8,5 +8,8 @@
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports": true
-  }
+  },
+  "python.linting.flake8Args": [
+    "--per-file-ignores=\"__init__.py:F401\" ."
+  ]
 }

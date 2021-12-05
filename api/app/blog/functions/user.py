@@ -1,11 +1,13 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
-from .. import hashing, models, schemas
+from ..domain.models import User
+from ..http.request import UserReq
+from ..utils import hashing
 
 
-def show(id: int, db: Session):
-    user = db.query(models.User).filter(models.User.id == id).first()
+def show_user(id: int, db: Session):
+    user = db.query(User).filter(User.id == id).first()
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -14,11 +16,9 @@ def show(id: int, db: Session):
     return user
 
 
-def create(user: schemas.User, db: Session):
+def create_user(user: UserReq, db: Session):
     hashed_password = hashing.Hash.bcrypt(user.password)
-    new_user = models.User(
-        name=user.name, email=user.email, password=hashed_password
-    )
+    new_user = User(name=user.name, email=user.email, password=hashed_password)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)

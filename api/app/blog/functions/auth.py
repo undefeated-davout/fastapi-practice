@@ -2,15 +2,12 @@ from fastapi import HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
-from .. import hashing, models, token
+from ..domain.models import User
+from ..utils import hashing, token
 
 
 def login(oauth_req: OAuth2PasswordRequestForm, db: Session):
-    db_user = (
-        db.query(models.User)
-        .filter(models.User.email == oauth_req.username)
-        .first()
-    )
+    db_user = db.query(User).filter(User.email == oauth_req.username).first()
     if not db_user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

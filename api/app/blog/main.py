@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from . import database
 from .routes import auth, blog, user
+from .utils import database
 
 app = FastAPI()
 
