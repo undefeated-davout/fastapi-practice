@@ -14,6 +14,11 @@ class BlogBase(BaseModel):
 
 
 # --- models ---
+class Login(BaseModel):
+    email: str
+    password: str
+
+
 class User(UserBase):
     password: str
 
