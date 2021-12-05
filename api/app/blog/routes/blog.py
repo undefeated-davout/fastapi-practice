@@ -1,11 +1,10 @@
 from typing import List
 
-from app.blog import oauth2
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
 from .. import database, schemas
-from ..functions import blog
+from ..functions import blog, oauth2
 
 router = APIRouter(prefix="/blogs", tags=["blogs"])
 
