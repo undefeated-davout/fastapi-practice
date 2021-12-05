@@ -9,4 +9,4 @@ app.include_router(auth.router)
 app.include_router(blog.router)
 app.include_router(user.router)
 
-Base.metadata.create_all(engine)
+Base.metadata.create_all(engine)  # テーブル構築

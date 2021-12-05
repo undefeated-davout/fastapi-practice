@@ -12,6 +12,8 @@ COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/pytho
 RUN apt update && apt install -y \
     bash \
     curl \
+    gcc \
+    libmariadb-dev\
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 

@@ -15,7 +15,6 @@ services:
   api:
     build: ./api
     container_name: fastapi-practice.api
-    tty: true
     restart: always
     volumes:
       - ./api:/opt/app/src
@@ -29,10 +28,9 @@ services:
   db:
     build: ./db
     container_name: fastapi-practice.db
-    tty: true
     restart: always
     ports:
-      - 3306:3306
+      - 3308:3308
     volumes:
       - ./db/db_data:/var/lib/mysql
       - ./db/initdb.d:/docker-entrypoint-initdb.d
