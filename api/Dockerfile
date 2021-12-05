@@ -3,7 +3,7 @@ FROM python:3.10.0-bullseye as builder
 
 WORKDIR /opt/app
 COPY requirements.txt /opt/app
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # 実行用
 FROM python:3.10.0-slim-bullseye as runner
@@ -12,6 +12,7 @@ COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/pytho
 RUN apt update && apt install --no-install-recommends -y \
     bash \
     curl \
+    default-mysql-client \
     gcc \
     libmariadb-dev\
   && apt-get clean \
