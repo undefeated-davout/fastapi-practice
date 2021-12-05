@@ -5,4 +5,4 @@ services:
       - 5678:5678
       - 8000:8000
     command: >
-      bash -c "python -m debugpy --listen 0.0.0.0:5678 -m uvicorn app.blog.main:app --host 0.0.0.0 --port 8000 --reload"
+      bash -c "python -m debugpy --listen 0.0.0.0:5678 -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"

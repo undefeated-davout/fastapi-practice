@@ -9,7 +9,7 @@ RUN pip install -r requirements.txt
 FROM python:3.10.0-slim-bullseye as runner
 COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
 
-RUN apt update && apt install -y \
+RUN apt update && apt install --no-install-recommends -y \
     bash \
     curl \
     gcc \

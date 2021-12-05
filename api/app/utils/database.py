@@ -10,7 +10,7 @@ from sqlalchemy.orm import sessionmaker
 DATABASE_URL = "mysql://{user_name}:{password}@{host_name}:{port}/{db_name}?charset=utf8".format(
     user_name=os.environ["MYSQL_USER"],
     password=os.environ["MYSQL_PASSWORD"],
-    host_name="db",
+    host_name=os.environ["MYSQL_HOST"],
     port=os.environ["MYSQL_TCP_PORT"],
     db_name=os.environ["MYSQL_DATABASE"],
 )
