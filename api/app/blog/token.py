@@ -3,6 +3,10 @@ from datetime import datetime, timedelta
 from typing import Optional
 
 from jose import jwt
+from jose.exceptions import JWTError
+from sqlalchemy.orm import Session
+
+from .functions import user
 
 SECRET_KEY = os.environ["API_SECRET_KEY"]
 ALGORITHM = "HS256"
@@ -20,3 +24,16 @@ def create_access_token(
     to_encode.update({"exp": expired_time})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
+
+
+def verify_token(token: str, exception, db: Session):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        email: str = payload.get("email")
+        user_id: int = payload.get("id")
+        if user_id is None or email is None:
+            raise exception
+    except JWTError:
+        raise exception
+    db_user = user.show(user_id, db)
+    return db_user

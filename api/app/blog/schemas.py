@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List
 
 from pydantic import BaseModel
 
@@ -45,13 +45,3 @@ class ShowBlog(BlogBase):
 
     class Config:
         orm_mode = True
-
-
-# --- tokens ---
-class Token(BaseModel):
-    access_token: str
-    token_type: str
-
-
-class TokenData(BaseModel):
-    email: Optional[str] = None

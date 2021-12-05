@@ -19,8 +19,10 @@ def index(db: Session):
     return blogs
 
 
-def create(blog: schemas.Blog, db: Session):
-    new_blog = models.Blog(title=blog.title, body=blog.body, user_id=1)
+def create(blog: schemas.Blog, current_user: schemas.User, db: Session):
+    new_blog = models.Blog(
+        title=blog.title, body=blog.body, user_id=current_user.id
+    )
     db.add(new_blog)
     db.commit()
     db.refresh(new_blog)

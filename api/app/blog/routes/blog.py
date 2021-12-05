@@ -1,5 +1,6 @@
 from typing import List
 
+from app.blog import oauth2
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
@@ -24,15 +25,28 @@ def index(db: Session = Depends(database.get_db)):
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
-def create(req: schemas.Blog, db: Session = Depends(database.get_db)):
-    return blog.create(req, db)
+def create(
+    req: schemas.Blog,
+    db: Session = Depends(database.get_db),
+    current_user: schemas.User = Depends(oauth2.get_current_user),
+):
+    return blog.create(req, current_user, db)
 
 
 @router.put("/{id}", status_code=status.HTTP_202_ACCEPTED)
-def update(id: int, req: schemas.Blog, db: Session = Depends(database.get_db)):
+def update(
+    id: int,
+    req: schemas.Blog,
+    db: Session = Depends(database.get_db),
+    current_user: schemas.User = Depends(oauth2.get_current_user),
+):
     return blog.update(id, req, db)
 
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def destroy(id: int, db: Session = Depends(database.get_db)):
+def destroy(
+    id: int,
+    db: Session = Depends(database.get_db),
+    current_user: schemas.User = Depends(oauth2.get_current_user),
+):
     return blog.destroy(id, db)
