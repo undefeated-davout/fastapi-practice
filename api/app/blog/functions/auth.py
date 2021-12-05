@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
-from .. import hashing, models, schemas
+from .. import hashing, models, schemas, token
 
 
 def login(user: schemas.User, db: Session):
@@ -18,4 +18,5 @@ def login(user: schemas.User, db: Session):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect password",
         )
-    return user
+    access_token = token.create_access_token(claims={"email": user.email})
+    return {"access_token": access_token, "token_type": "bearer"}

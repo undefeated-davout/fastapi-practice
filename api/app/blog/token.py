@@ -10,13 +10,13 @@ EXPIRE_MINUTES = 30
 
 
 def create_access_token(
-    password: dict, expires_delta: Optional[timedelta] = None
+    claims: dict, expires_delta: Optional[timedelta] = None
 ):
-    to_encode = password.copy()
     if expires_delta:
-        expire = datetime.utcnow() + expires_delta
+        expired_time = datetime.utcnow() + expires_delta
     else:
-        expire = datetime.utcnow() + timedelta(nimutes=EXPIRE_MINUTES)
-        to_encode.update({"exp": expire})
-        encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+        expired_time = datetime.utcnow() + timedelta(minutes=EXPIRE_MINUTES)
+    to_encode = claims.copy()
+    to_encode.update({"exp": expired_time})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
