@@ -26,3 +26,13 @@ docker-compose -f docker-compose.yml -f docker-compose-dev.yml down
   - [http://localhost:23450/](http://localhost:23450/)
 - API Swagger
   - [http://localhost:23450/docs](http://localhost:23450/docs)
+
+## API構築
+
+### JWT用SECRET KEY生成
+
+```.bash
+openssl rand -hex 32
+```
+
+上記コマンドで生成されたキーを.envのJWT_SECRET_KEYにセット

@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 
 from ..functions.user import show_user
 
-SECRET_KEY = os.environ["API_SECRET_KEY"]
+SECRET_KEY = os.environ["JWT_SECRET_KEY"]
 ALGORITHM = "HS256"
 EXPIRE_MINUTES = 30
 
