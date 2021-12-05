@@ -22,6 +22,9 @@ RUN echo "alias ll='ls -lahF'" >> ~/.bashrc
 
 WORKDIR /opt/app/src
 
+# 実行環境でalembicコマンドを使用するため
+RUN pip install --no-cache-dir alembic
+
 EXPOSE 8000
 
 CMD ["/bin/bash"]

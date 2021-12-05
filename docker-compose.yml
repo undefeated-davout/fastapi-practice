@@ -21,7 +21,7 @@ services:
     volumes:
       - ./api:/opt/app/src
     command: >
-      bash -c "uvicorn app.main:app --host 0.0.0.0 --port 8000"
+      bash -c "./scripts/run.sh && uvicorn app.main:app --host 0.0.0.0 --port 8000"
     env_file:
       ./envs/.env
     depends_on:

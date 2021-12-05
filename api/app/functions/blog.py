@@ -1,8 +1,7 @@
+from app.http.request import BlogReq, UserReq
+from app.models.blog import BlogModel
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
-
-from ..domain.models import BlogModel
-from ..http.request import BlogReq, UserReq
 
 
 def show_blog(id: int, db: Session):

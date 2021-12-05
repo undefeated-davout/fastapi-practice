@@ -1,10 +1,9 @@
+from app.models.user import UserModel
+from app.utils.hashing import Hash
+from app.utils.token import create_access_token
 from fastapi import HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-
-from ..domain.models import UserModel
-from ..utils.hashing import Hash
-from ..utils.token import create_access_token
 
 
 def login(oauth_req: OAuth2PasswordRequestForm, db: Session):

@@ -1,13 +1,26 @@
+import os
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
+import sqlalchemy_utils
+from app.models import Base
+from sqlalchemy import engine_from_config, pool
+from sqlalchemy.ext.declarative import declarative_base
 
 from alembic import context
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+
+# MySQL設定
+DATABASE_URL = "mysql://{user_name}:{password}@{host_name}:{port}/{db_name}?charset=utf8".format(
+    user_name=os.environ["MYSQL_USER"],
+    password=os.environ["MYSQL_PASSWORD"],
+    host_name=os.environ["MYSQL_HOST"],
+    port=os.environ["MYSQL_TCP_PORT"],
+    db_name=os.environ["MYSQL_DATABASE"],
+)
+config.set_main_option("sqlalchemy.url", DATABASE_URL)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -17,12 +30,25 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+# target_metadata = None
+target_metadata = Base.metadata  # app内のBaseを使用
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
+
+
+# UUID対応
+def render_item(type_, obj, autogen_context):
+    """Apply custom rendering for selected items."""
+    if type_ == "type" and isinstance(
+        obj, sqlalchemy_utils.types.uuid.UUIDType
+    ):
+        autogen_context.imports.add("import sqlalchemy_utils")
+        autogen_context.imports.add("import uuid")
+        return "sqlalchemy_utils.types.uuid.UUIDType(binary=False), default=uuid.uuid4"
+    return False
 
 
 def run_migrations_offline():
@@ -64,7 +90,9 @@ def run_migrations_online():
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection,
+            target_metadata=target_metadata,
+            render_item=render_item,  # UUID対応
         )
 
         with context.begin_transaction():

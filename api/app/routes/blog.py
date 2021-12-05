@@ -1,19 +1,18 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, status
-from sqlalchemy.orm import Session
-
-from ..functions.blog import (
+from app.functions.blog import (
     create_blog,
     destroy_blog,
     index_blog,
     show_blog,
     update_blog,
 )
-from ..http.request import BlogReq, UserReq
-from ..http.response import BlogRes
-from ..utils.database import get_db
-from ..utils.oauth2 import get_current_user
+from app.http.request import BlogReq, UserReq
+from app.http.response import BlogRes
+from app.utils.database import get_db
+from app.utils.oauth2 import get_current_user
+from fastapi import APIRouter, Depends, status
+from sqlalchemy.orm import Session
 
 router = APIRouter(prefix="/blogs", tags=["blogs"])
 

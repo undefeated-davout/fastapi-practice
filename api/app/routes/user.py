@@ -1,10 +1,9 @@
+from app.functions.user import create_user, show_user
+from app.http.request import UserReq
+from app.http.response import UserRes
+from app.utils.database import get_db
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
-
-from ..functions.user import create_user, show_user
-from ..http.request import UserReq
-from ..http.response import UserRes
-from ..utils.database import get_db
 
 router = APIRouter(prefix="/users", tags=["users"])
 

@@ -1,9 +1,8 @@
+from app.http.request import UserReq
+from app.models.user import UserModel
+from app.utils.hashing import Hash
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
-
-from ..domain.models import UserModel
-from ..http.request import UserReq
-from ..utils.hashing import Hash
 
 
 def show_user(id: int, db: Session):
