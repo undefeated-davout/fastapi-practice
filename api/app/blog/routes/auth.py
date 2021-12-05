@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from ..functions.auth import login
 from ..http.response import LoginRes
-from ..utils import database
+from ..utils.database import get_db
 
 router = APIRouter(tags=["auth"])
 
@@ -12,7 +12,7 @@ router = APIRouter(tags=["auth"])
 @router.post("/login", status_code=status.HTTP_200_OK, response_model=LoginRes)
 def login_auth(
     req: OAuth2PasswordRequestForm = Depends(),
-    db: Session = Depends(database.get_db),
+    db: Session = Depends(get_db),
 ):
     token_res = login(req, db)
     return token_res

@@ -1,12 +1,12 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
-from ..domain.models import Blog
+from ..domain.models import BlogModel
 from ..http.request import BlogReq, UserReq
 
 
 def show_blog(id: int, db: Session):
-    blog = db.query(Blog).filter(Blog.id == id).first()
+    blog = db.query(BlogModel).filter(BlogModel.id == id).first()
     if not blog:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -16,7 +16,7 @@ def show_blog(id: int, db: Session):
 
 
 def index_blog(db: Session):
-    blogs = db.query(Blog).all()
+    blogs = db.query(BlogModel).all()
     return blogs
 
 
@@ -25,7 +25,9 @@ def create_blog(
     current_user: UserReq,
     db: Session,
 ):
-    new_blog = Blog(title=blog.title, body=blog.body, user_id=current_user.id)
+    new_blog = BlogModel(
+        title=blog.title, body=blog.body, user_id=current_user.id
+    )
     db.add(new_blog)
     db.commit()
     db.refresh(new_blog)
@@ -33,7 +35,7 @@ def create_blog(
 
 
 def update_blog(id: int, new_blog: BlogReq, db: Session):
-    old_blog = db.query(Blog).filter(Blog.id == id)
+    old_blog = db.query(BlogModel).filter(BlogModel.id == id)
     if not old_blog.first():
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -45,7 +47,7 @@ def update_blog(id: int, new_blog: BlogReq, db: Session):
 
 
 def destroy_blog(id: int, db: Session):
-    blog = db.query(Blog).filter(Blog.id == id)
+    blog = db.query(BlogModel).filter(BlogModel.id == id)
     if not blog.first():
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

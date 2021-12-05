@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from ..functions.user import create_user, show_user
 from ..http.request import UserReq
 from ..http.response import UserRes
-from ..utils import database
+from ..utils.database import get_db
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -14,12 +14,12 @@ router = APIRouter(prefix="/users", tags=["users"])
     status_code=status.HTTP_200_OK,
     response_model=UserRes,
 )
-def show(id: int, db: Session = Depends(database.get_db)):
+def show(id: int, db: Session = Depends(get_db)):
     user = show_user(id, db)
     return user
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=UserRes)
-def create(req: UserReq, db: Session = Depends(database.get_db)):
+def create(req: UserReq, db: Session = Depends(get_db)):
     user = create_user(req, db)
     return user
