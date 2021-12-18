@@ -1,7 +1,7 @@
 """create users, blogs
 
 Revision ID: f7cc29c7ed5b
-Revises: 
+Revises:
 Create Date: 2021-12-05 17:10:22.062102
 
 """
