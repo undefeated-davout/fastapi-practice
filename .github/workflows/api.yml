@@ -16,4 +16,5 @@ jobs:
       - name: docker-compose up
         run: |
           docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d &&
+          ./db/scripts/run.sh &&
           docker exec fastapi-practice.api pytest -v
