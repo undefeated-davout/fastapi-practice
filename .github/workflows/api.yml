@@ -9,44 +9,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # container: python:3.10.0-slim-bullseye
-    # services:
-    #   testdb:
-    #     image: mysql:8.0.27
-    #     ports:
-    #       - 3309:3309
-    #     env:
-    #       MYSQL_HOST: testdb
-    #       MYSQL_DATABASE: testdb
-    #       MYSQL_TCP_PORT: 3309
-    #       MYSQL_ROOT_PASSWORD: testrootpassword
-    #       MYSQL_USER: testuser
-    #       MYSQL_PASSWORD: testpassword
-    #     options: >-
-    #       --health-cmd "mysqladmin ping"
-    #       --health-interval 10s
-    #       --health-timeout 5s
-    #       --health-retries 5
     steps:
       - uses: actions/checkout@v2
       - name: create blank .env
         run: touch ./envs/.env
       - name: docker-compose up
         run: |
-          docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d
-          docker-compose ps
-      # - name: set env
-      #   run: cat ./envs/.test.env >> $GITHUB_ENV
-      # - name: env
-      #   run: env
-      # - name: prepare
-      #   run: |
-      #     apt update && apt install --no-install-recommends -y \
-      #       default-mysql-client \
-      #       gcc \
-      #       libmariadb-dev
-      # - name: install pip
-      #   run: pip install --no-cache-dir -r requirements.txt
-      #   working-directory: ./api
-      # - name: run test
-      #   run: pytest -v
+          docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d &&
+          docker exec fastapi-practice.api pytest -v
