@@ -1,5 +1,7 @@
 # README
 
+[![CI](https://github.com/undefeated-davout/fastapi-practice/actions/workflows/api.yml/badge.svg)](https://github.com/undefeated-davout/fastapi-practice/actions/workflows/api.yml)
+
 ## 開発環境構築
 
 ### nginxあり
