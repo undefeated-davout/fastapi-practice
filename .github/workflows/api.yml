@@ -29,6 +29,8 @@ jobs:
     #       --health-retries 5
     steps:
       - uses: actions/checkout@v2
+      - name: create blank .env
+        run: touch ./envs/.env
       - name: docker-compose up
         run: |
           docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d
