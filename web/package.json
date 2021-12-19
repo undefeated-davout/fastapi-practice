@@ -1,0 +1,70 @@
+{
+  "name": "xray-ai-web",
+  "private": true,
+  "scripts": {
+    "#---開発環境---": "",
+    "dev": "NODE_OPTIONS='--inspect=0.0.0.0:9229' next dev",
+    "test": "jest --env=jsdom --verbose",
+    "#---ビルド、本番環境---": "",
+    "build": "next build",
+    "start": "next start",
+    "#---Linter/Formatter関連---": "",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint **/*.{ts,tsx,js}",
+    "lint:fix": "eslint **/*.{ts,tsx,js} --fix",
+    "format": "prettier --write .",
+    "test-all": "run-s lint check-types format lint:fix",
+    "prettier-watch": "onchange \"**/*\" --exclude-path .prettierignore -- prettier --write --ignore-unknown {{changed}}",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.@(ts|tsx)": [
+      "npm run lint",
+      "npm run format",
+      "npm run lint:fix"
+    ]
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "<rootDir>/.next/",
+      "<rootDir>/node_modules/"
+    ],
+    "moduleNameMapper": {
+      "\\.(css)$": "<rootDir>/node_modules/jest-css-modules"
+    }
+  },
+  "dependencies": {
+    "@emotion/react": "^11.7.0",
+    "@emotion/styled": "^11.6.0",
+    "@mui/icons-material": "^5.2.1",
+    "@mui/material": "^5.2.3",
+    "next": "^12.0.7",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "swr": "^1.1.1"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^8.11.1",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/node": "16.11.10",
+    "@types/react": "17.0.37",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "babel-jest": "^27.4.4",
+    "env-cmd": "^10.1.0",
+    "eslint": "7.32.0",
+    "eslint-config-next": "12.0.4",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "husky": "^7.0.4",
+    "jest": "^27.4.4",
+    "jest-css-modules": "^2.1.0",
+    "lint-staged": "^12.1.2",
+    "onchange": "^7.1.0",
+    "prettier": "^2.5.0",
+    "typescript": "4.5.2"
+  }
+}

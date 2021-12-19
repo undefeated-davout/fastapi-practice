@@ -1,0 +1,9 @@
+.noHeader {
+  height: 100vh;
+  display: flex;
+}
+
+.withHeader {
+  height: calc(100vh - 64px);
+  margin-top: 64px;
+}
