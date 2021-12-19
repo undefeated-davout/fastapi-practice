@@ -6,6 +6,9 @@ services:
       - 8000:8000
     command: >
       bash -c "./scripts/run.sh && python -m debugpy --listen 0.0.0.0:5678 -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+    depends_on:
+      - db
+      - testdb
 
   testdb:
     build: ./db
