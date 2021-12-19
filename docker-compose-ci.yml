@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  web:
+    command: >
+      bash -c "while :; do sleep 10; done"
+
+  api:
+    command: >
+      bash -c "./scripts/run.sh && while :; do sleep 10; done"

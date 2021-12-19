@@ -16,13 +16,14 @@ jobs:
           node-version: '16.13.1'
       - name: create blank .env
         run: touch ./envs/.env
+      - name: docker-compose up -d
+        run: |
+          docker-compose -f docker-compose.yml -f docker-compose-dev.yml -f docker-compose-ci.yml up -d api web testdb
       - name: run API test
         run: |
-          docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d api &&
           docker exec fastapi-practice.testdb ./scripts/run.sh &&
           docker exec fastapi-practice.api pytest -v
-      - name: check node version
-        run: node -v
       - name: run Web test
-        working-directory: ./web
-        run: npm i && npm run test
+        run: |
+          docker exec fastapi-practice.web npm i &&
+          docker exec fastapi-practice.web npm run test
