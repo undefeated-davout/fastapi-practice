@@ -15,12 +15,11 @@ jobs:
         run: touch ./envs/.env
       - name: docker-compose up
         run: |
-          docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d
+          docker-compose -f docker-compose.yml -f docker-compose-dev.yml up api -d
       - name: run API test
         run: |
           docker exec fastapi-practice.testdb ./scripts/run.sh &&
           docker exec fastapi-practice.api pytest -v
       - name: run Web test
-        run: |
-          docker exec fastapi-practice.web npm i &&
-          docker exec fastapi-practice.web npm run test
+        working-directory: ./web
+        run: npm i && npm run test
