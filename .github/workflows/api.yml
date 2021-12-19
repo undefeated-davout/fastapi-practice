@@ -15,7 +15,7 @@ jobs:
         run: touch ./envs/.env
       - name: docker-compose up
         run: |
-          docker-compose -f docker-compose.yml -f docker-compose-dev.yml up api -d
+          docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d api
       - name: run API test
         run: |
           docker exec fastapi-practice.testdb ./scripts/run.sh &&
