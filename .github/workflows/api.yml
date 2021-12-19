@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: create blank .env
         run: touch ./envs/.env
-      - name: docker-compose up
+      - name: run test
         run: |
           docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d &&
           docker exec fastapi-practice.testdb ./scripts/run.sh &&
