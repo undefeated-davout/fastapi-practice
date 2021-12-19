@@ -9,6 +9,7 @@ from app.functions.blog import (
 )
 from app.http.request import BlogReq, UserReq
 from app.http.response import BlogRes
+from app.models.user import UserModel
 from app.utils.database import get_db
 from app.utils.oauth2 import get_current_user
 from fastapi import APIRouter, Depends, status
@@ -41,7 +42,7 @@ def index(db: Session = Depends(get_db)):
 def create(
     req: BlogReq,
     db: Session = Depends(get_db),
-    current_user: UserReq = Depends(get_current_user),
+    current_user: UserModel = Depends(get_current_user),
 ):
     blog = create_blog(req, current_user, db)
     return blog
@@ -52,7 +53,7 @@ def update(
     id: int,
     req: BlogReq,
     db: Session = Depends(get_db),
-    current_user: UserReq = Depends(get_current_user),
+    current_user: UserModel = Depends(get_current_user),
 ):
     update_blog(id, req, db)
     return {}
@@ -62,7 +63,7 @@ def update(
 def destroy(
     id: int,
     db: Session = Depends(get_db),
-    current_user: UserReq = Depends(get_current_user),
+    current_user: UserModel = Depends(get_current_user),
 ):
     destroy_blog(id, db)
     return {}

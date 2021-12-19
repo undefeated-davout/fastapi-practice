@@ -12,6 +12,6 @@ router = APIRouter(tags=["auth"])
 def login_auth(
     req: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db),
-):
+) -> dict[str, str]:
     token_res = login(req, db)
     return token_res

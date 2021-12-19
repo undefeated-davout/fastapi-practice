@@ -4,8 +4,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# DATABASE_URL = "sqlite:///./blog.db" # SQLite設定
-
 # MySQL設定
 DATABASE_URL = "mysql://{user_name}:{password}@{host_name}:{port}/{db_name}?charset=utf8".format(
     user_name=os.environ["MYSQL_USER"],
@@ -28,3 +26,8 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+def reset_database():
+    Base.metadata.drop_all(bind=engine)
+    Base.metadata.create_all(bind=engine)

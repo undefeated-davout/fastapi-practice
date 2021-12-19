@@ -2,6 +2,7 @@ import os
 from datetime import datetime, timedelta
 from typing import Optional
 
+from app.models.user import UserModel
 from jose import jwt
 from jose.exceptions import JWTError
 from sqlalchemy.orm import Session
@@ -15,7 +16,7 @@ EXPIRE_MINUTES = 30
 
 def create_access_token(
     claims: dict, expires_delta: Optional[timedelta] = None
-):
+) -> str:
     if expires_delta:
         expired_time = datetime.utcnow() + expires_delta
     else:
@@ -26,7 +27,7 @@ def create_access_token(
     return encoded_jwt
 
 
-def verify_token(token: str, exception, db: Session):
+def get_user_from_token(token: str, exception, db: Session) -> UserModel:
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email: str = payload.get("email")
@@ -35,5 +36,5 @@ def verify_token(token: str, exception, db: Session):
             raise exception
     except JWTError:
         raise exception
-    db_user = show_user(user_id, db)
-    return db_user
+    user: UserModel = show_user(user_id, db)
+    return user
