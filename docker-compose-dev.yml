@@ -6,3 +6,16 @@ services:
       - 8000:8000
     command: >
       bash -c "./scripts/run.sh && python -m debugpy --listen 0.0.0.0:5678 -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+
+  testdb:
+    build: ./db
+    container_name: fastapi-practice.testdb
+    restart: always
+    tty: true
+    ports:
+      - 3309:3309
+    volumes:
+      - ./db/initdb.d:/docker-entrypoint-initdb.d
+      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+    env_file:
+      ./envs/.test.env

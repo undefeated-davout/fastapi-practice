@@ -1,10 +1,10 @@
-from fastapi import Depends, FastAPI, HTTPException, Request, Response
-from sqlalchemy.orm import Session
+from fastapi import FastAPI
 
-from .routes import auth, blog, user
+from .routes import auth, blog, common, user
 
 app = FastAPI()
 
 app.include_router(auth.router)
 app.include_router(blog.router)
+app.include_router(common.router)
 app.include_router(user.router)

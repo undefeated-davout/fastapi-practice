@@ -1,7 +1,6 @@
 from app.utils.database import Base
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql.schema import ForeignKey
 
 from .timestamp_base import TimestampBase
 

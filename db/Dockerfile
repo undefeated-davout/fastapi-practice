@@ -1,5 +1,6 @@
 FROM mysql:8.0.27
 
 EXPOSE 3308
+EXPOSE 3309
 
 CMD ["mysqld"]

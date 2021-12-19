@@ -26,8 +26,3 @@ def get_db():
         yield db
     finally:
         db.close()
-
-
-def reset_database():
-    Base.metadata.drop_all(bind=engine)
-    Base.metadata.create_all(bind=engine)

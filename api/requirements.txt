@@ -4,7 +4,9 @@ asgiref==3.4.1
 attrs==21.2.0
 bcrypt==3.2.0
 black==21.11b1
+certifi==2021.10.8
 cffi==1.15.0
+charset-normalizer==2.0.9
 click==8.0.3
 debugpy==1.5.1
 ecdsa==0.17.0
@@ -36,6 +38,7 @@ pytest==6.2.5
 python-jose==3.3.0
 python-multipart==0.0.5
 regex==2021.11.10
+requests==2.26.0
 rsa==4.8
 six==1.16.0
 sniffio==1.2.0
@@ -45,4 +48,5 @@ starlette==0.16.0
 toml==0.10.2
 tomli==1.2.2
 typing_extensions==4.0.0
+urllib3==1.26.7
 uvicorn==0.15.0
