@@ -1,5 +1,14 @@
 version: "3.8"
 services:
+  web:
+    ports:
+      - 3000:3000
+      - 9229:9229
+    env_file:
+      ./envs/dev.env
+    command: >
+      bash -c "npm i && ./scripts/run_dev.sh && npm run dev"
+
   api:
     ports:
       - 5678:5678
@@ -7,14 +16,14 @@ services:
     command: >
       bash -c "./scripts/run.sh && python -m debugpy --listen 0.0.0.0:5678 -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     env_file:
-      ./envs/.dev.env
+      ./envs/dev.env
     depends_on:
       - db
       - testdb
 
   db:
     env_file:
-      ./envs/.dev.env
+      ./envs/dev.env
 
   testdb:
     build: ./db
@@ -28,4 +37,4 @@ services:
       - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./db/scripts:/scripts
     env_file:
-      ./envs/.test.env
+      ./envs/test.env

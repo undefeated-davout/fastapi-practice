@@ -12,6 +12,21 @@ services:
       - 23450:23450
     depends_on:
       - api
+      - web
+
+  web:
+    build: ./web
+    container_name: fastapi-practice.web
+    restart: always
+    tty: true
+    volumes:
+      - ./web:/opt/app/src
+    command: >
+      bash -c "npm i && npm run build && npm run start"
+    env_file:
+      ./envs/.env
+    depends_on:
+      - api
 
   api:
     build: ./api
