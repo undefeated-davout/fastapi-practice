@@ -21,9 +21,9 @@ def upgrade():
     op.create_table(
         "users",
         sa.Column("id", sa.Integer(), nullable=False),
-        sa.Column("name", sa.String(length=256), nullable=True),
-        sa.Column("email", sa.String(length=256), nullable=True),
-        sa.Column("password", sa.String(length=256), nullable=True),
+        sa.Column("name", sa.String(length=255), nullable=True),
+        sa.Column("email", sa.String(length=255), nullable=True),
+        sa.Column("password", sa.String(length=255), nullable=True),
         sa.Column(
             "created_at",
             mysql.TIMESTAMP(),
@@ -44,8 +44,8 @@ def upgrade():
     op.create_table(
         "blogs",
         sa.Column("id", sa.Integer(), nullable=False),
-        sa.Column("title", sa.String(length=256), nullable=True),
-        sa.Column("body", sa.String(length=256), nullable=True),
+        sa.Column("title", sa.String(length=255), nullable=True),
+        sa.Column("body", sa.String(length=255), nullable=True),
         sa.Column("user_id", sa.Integer(), nullable=True),
         sa.Column(
             "created_at",

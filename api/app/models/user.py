@@ -9,7 +9,7 @@ class UserModel(Base, TimestampBase):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(256))
-    email = Column(String(256))
-    password = Column(String(256))
+    name = Column(String(255))
+    email = Column(String(255))
+    password = Column(String(255))
     blogs = relationship("BlogModel", back_populates="creator")

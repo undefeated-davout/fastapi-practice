@@ -10,7 +10,7 @@ class BlogModel(Base, TimestampBase):
     __tablename__ = "blogs"
 
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String(256))
-    body = Column(String(256))
+    title = Column(String(255))
+    body = Column(String(255))
     user_id = Column(Integer, ForeignKey("users.id"))
     creator = relationship("UserModel", back_populates="blogs")
